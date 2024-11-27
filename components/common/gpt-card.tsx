@@ -1,7 +1,6 @@
 import React, { HtmlHTMLAttributes, PropsWithChildren, ReactNode, memo, useCallback, useMemo } from 'react';
 import { Tag, TagProps, Tooltip } from 'antd';
 import classNames from 'classnames';
-import Image from 'next/image';
 
 interface Props {
   title: string;
@@ -44,7 +43,7 @@ function GPTCard({
 
     if (typeof icon === 'string') {
       return (
-        <Image
+        <img
           className={classNames('w-11 h-11 rounded-full mr-4 object-contain bg-white', {
             'border border-gray-200': iconBorder,
           })}

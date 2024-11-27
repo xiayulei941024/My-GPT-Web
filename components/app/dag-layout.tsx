@@ -3,7 +3,7 @@ import PreviewFlow from '../flow/preview-flow';
 import { apiInterceptors, getFlows } from '@/client/api';
 import { IFlow } from '@/types/flow';
 import { Select } from 'antd';
-import Link from 'next/link';
+import { Link } from 'react-router-dom';
 import { t } from 'i18next';
 
 interface IProps {

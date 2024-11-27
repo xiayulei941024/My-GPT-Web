@@ -1,6 +1,5 @@
 import { Popover, ConfigProvider, Modal, Badge } from 'antd';
-import { useRouter } from 'next/router';
-import Image from 'next/image';
+import { useNavigate } from 'react-router-dom';
 import { ClockCircleOutlined, DeleteFilled, MessageFilled, UserOutlined, WarningOutlined } from '@ant-design/icons';
 import { ISpace } from '@/types/knowledge';
 import DocPanel from './doc-panel';
@@ -18,7 +17,7 @@ interface IProps {
 const { confirm } = Modal;
 
 export default function SpaceCard(props: IProps) {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const { space, getSpaces } = props;
 
@@ -48,7 +47,7 @@ export default function SpaceCard(props: IProps) {
       }),
     );
     if (data?.conv_uid) {
-      router.push(`/chat?scene=chat_knowledge&id=${data?.conv_uid}&db_param=${space.name}`);
+      navigate(`/chat?scene=chat_knowledge&id=${data?.conv_uid}&db_param=${space.name}`);
     }
   };
 

@@ -10,11 +10,12 @@ import Chart from '../chart';
 import classNames from 'classnames';
 import MuiLoading from '../common/loading';
 import { Empty } from 'antd';
-import { useSearchParams } from 'next/navigation';
+import { useLocation } from 'react-router-dom';
 import { getInitMessage } from '@/utils';
 
 const ChatContainer = () => {
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const { scene, chatId, model, agent, setModel, history, setHistory } = useContext(ChatContext);
   const chat = useChat({});
   const initMessage = (searchParams && searchParams.get('initMessage')) ?? '';

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo, useContext } from 'react';
-import { useSearchParams } from 'next/navigation';
+import { useLocation } from 'react-router-dom';
 import MonacoEditor from './monaco-editor';
 import ChatContent from './chat-content';
 import ChatFeedback from './chat-feedback';
@@ -29,7 +29,8 @@ type Props = {
 const Completion = ({ messages, onSubmit }: Props) => {
   const { dbParam, currentDialogue, scene, model, refreshDialogList, chatId, agent, docId } = useContext(ChatContext);
   const { t } = useTranslation();
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
 
   const flowSelectParam = (searchParams && searchParams.get('select_param')) ?? '';
   const spaceNameOriginal = (searchParams && searchParams.get('spaceNameOriginal')) ?? '';

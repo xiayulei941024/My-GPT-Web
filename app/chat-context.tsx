@@ -2,7 +2,7 @@ import { createContext, useEffect, useMemo, useState } from 'react';
 import { apiInterceptors, getDialogueList, getUsableModels } from '@/client/api';
 import { useRequest } from 'ahooks';
 import { ChatHistoryResponse, DialogueListResponse, IChatDialogueSchema } from '@/types/chat';
-import { useSearchParams } from 'next/navigation';
+import { useLocation } from 'react-router-dom';
 import { STORAGE_THEME_KEY } from '@/utils';
 
 type ThemeMode = 'dark' | 'light';
@@ -63,7 +63,8 @@ const ChatContext = createContext<IChatContext>({
 });
 
 const ChatContextProvider = ({ children }: { children: React.ReactElement }) => {
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const chatId = searchParams?.get('id') ?? '';
   const scene = searchParams?.get('scene') ?? '';
   const db_param = searchParams?.get('db_param') ?? '';

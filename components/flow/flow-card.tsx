@@ -13,7 +13,7 @@ import { Modal, Tooltip } from 'antd';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import FlowPreview from './preview-flow';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import GptCard from '../common/gpt-card';
 import { ChatContext } from '@/app/chat-context';
 import qs from 'querystring';
@@ -28,7 +28,7 @@ const FlowCard: React.FC<FlowCardProps> = ({ flow, onCopy, deleteCallback }) => 
   const { model } = useContext(ChatContext);
   const { t } = useTranslation();
   const [modal, contextHolder] = Modal.useModal();
-  const router = useRouter();
+  const navigate = useNavigate();
 
   async function deleteFlow() {
     const [, , res] = await apiInterceptors(deleteFlowById(flow.uid));
@@ -38,7 +38,7 @@ const FlowCard: React.FC<FlowCardProps> = ({ flow, onCopy, deleteCallback }) => 
   }
 
   function cardClick() {
-    router.push('/flow/canvas?id=' + flow.uid);
+    navigate('/flow/canvas?id=' + flow.uid);
   }
 
   const handleChat = async () => {
@@ -50,7 +50,7 @@ const FlowCard: React.FC<FlowCardProps> = ({ flow, onCopy, deleteCallback }) => 
         model: model,
         select_param: flow.uid,
       });
-      router.push(`/chat?${queryStr}`);
+      navigate(`/chat?${queryStr}`);
     }
   };
 

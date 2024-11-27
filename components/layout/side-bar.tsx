@@ -22,9 +22,7 @@ import Icon, {
 import { Modal, message, Tooltip, Dropdown } from 'antd';
 import { ItemType } from 'antd/es/menu/hooks/useItems';
 import copy from 'copy-to-clipboard';
-import Image from 'next/image';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { ReactNode, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -58,7 +56,8 @@ function smallMenuItemStyle(active?: boolean) {
 function SideBar() {
   const { chatId, scene, isMenuExpand, dialogueList, queryDialogueList, refreshDialogList, setIsMenuExpand, setAgent, mode, setMode } =
     useContext(ChatContext);
-  const { pathname, replace } = useRouter();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { t, i18n } = useTranslation();
 
   const [logo, setLogo] = useState<string>('/LOGO_1.png');
@@ -195,7 +194,7 @@ function SideBar() {
               }
               message.success('success');
               refreshDialogList();
-              dialogue.chat_mode === scene && dialogue.conv_uid === chatId && replace('/');
+              dialogue.chat_mode === scene && dialogue.conv_uid === chatId && await navigate('/', { replace: true });
               resolve();
             } catch (e) {
               reject();
@@ -230,7 +229,7 @@ function SideBar() {
     return (
       <div className="flex flex-col justify-between h-screen bg-white dark:bg-[#232734] animate-fade animate-duration-300">
         <Link href="/" className="px-2 py-3">
-          <Image src="/LOGO_SMALL.png" alt="DB-GPT" width={63} height={46} className="w-[63px] h-[46px]" />
+          <img src="/LOGO_SMALL.png" alt="DB-GPT" width={63} height={46} className="w-[63px] h-[46px]" />
         </Link>
         <div>
           <Link href="/" className="flex items-center justify-center my-4 mx-auto w-12 h-12 bg-theme-primary rounded-full text-white">
@@ -286,7 +285,7 @@ function SideBar() {
     <div className="flex flex-col h-screen bg-white dark:bg-[#232734]">
       {/* LOGO */}
       <Link href="/" className="p-2">
-        <Image src={logo} alt="DB-GPT" width={239} height={60} className="w-full h-full" />
+        <img src={logo} alt="DB-GPT" width={239} height={60} className="w-full h-full" />
       </Link>
       <Link href="/" className="flex items-center justify-center mb-4 mx-4 h-11 bg-theme-primary rounded text-white">
         <PlusOutlined className="mr-2" />

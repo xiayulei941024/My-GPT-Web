@@ -7,7 +7,7 @@ import { Input, Tree, Empty, Tabs } from 'antd';
 import type { DataNode } from 'antd/es/tree';
 import MonacoEditor from './monaco-editor';
 import { sendGetRequest, sendSpacePostRequest } from '@/utils/request';
-import { useSearchParams } from 'next/navigation';
+import { useLocation } from 'react-router-dom';
 import { OnChange } from '@monaco-editor/react';
 import Header from './header';
 import Chart from '../chart';
@@ -103,7 +103,8 @@ function DbEditor() {
   const [tableData, setTableData] = React.useState<{ columns: string[]; values: any }>();
   const [currentTabIndex, setCurrentTabIndex] = React.useState<string>();
 
-  const searchParams = useSearchParams();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
   const id = searchParams?.get('id');
   const scene = searchParams?.get('scene');
 

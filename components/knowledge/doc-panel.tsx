@@ -6,7 +6,7 @@ import { IDocument, ISpace } from '@/types/knowledge';
 import moment from 'moment';
 import ArgumentsModal from './arguments-modal';
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import DocIcon from './doc-icon';
 
 interface IProps {
@@ -20,7 +20,7 @@ const { confirm } = Modal;
 export default function DocPanel(props: IProps) {
   const { space } = props;
   const { t } = useTranslation();
-  const router = useRouter();
+  const navigate = useNavigate();
   const page_size = 18;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -149,7 +149,7 @@ export default function DocPanel(props: IProps) {
                           className="mr-2 !text-lg"
                           style={{ color: '#1b7eff', fontSize: '20px' }}
                           onClick={() => {
-                            router.push(`/knowledge/chunk/?spaceName=${space.name}&id=${document.id}`);
+                            navigate(`/knowledge/chunk/?spaceName=${space.name}&id=${document.id}`);
                           }}
                         />
                       </Tooltip>

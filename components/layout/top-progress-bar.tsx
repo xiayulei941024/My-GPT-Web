@@ -1,4 +1,4 @@
-import Router from 'next/router';
+// import Router from 'next/router';
 import NProgress from 'nprogress';
 
 let timer: any;
@@ -29,9 +29,9 @@ function stop() {
   NProgress.done();
 }
 
-Router.events.on('routeChangeStart', load);
-Router.events.on('routeChangeComplete', stop);
-Router.events.on('routeChangeError', stop);
+// Router.events.on('routeChangeStart', load);
+// Router.events.on('routeChangeComplete', stop);
+// Router.events.on('routeChangeError', stop);
 
 if (typeof window !== 'undefined' && typeof window?.fetch === 'function') {
   const originalFetch = window.fetch;

@@ -1,6 +1,6 @@
 import { IDocument } from '@/types/knowledge';
 import { Button, Tooltip } from 'antd';
-import { useRouter } from 'next/router';
+import { useNavigate } from 'react-router-dom';
 import React from 'react';
 import FileStatusIcon from '../common/FileStatusIcon';
 
@@ -11,10 +11,10 @@ interface IProps {
 
 export default function DocList(props: IProps) {
   const { documents, dbParam } = props;
-  const router = useRouter();
+  const navigate = useNavigate();
 
   const handleClick = (id: number) => {
-    router.push(`/knowledge/chunk/?spaceName=${dbParam}&id=${id}`);
+    navigate(`/knowledge/chunk/?spaceName=${dbParam}&id=${id}`);
   };
 
   if (!documents?.length) return null;
