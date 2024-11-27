@@ -12,6 +12,11 @@ import { ThemeProvider } from '@mui/joy';
 import { joyTheme } from '@/defaultTheme';
 import { useTranslation } from 'react-i18next';
 
+type GlobImport = Record<string, (() => Promise<React.ComponentType>) | React.ComponentType | (() => Promise<{ default: React.ComponentType }>)>;
+const modules: GlobImport = import.meta.glob('../pages/{index.tsx,*/index.tsx}', { eager: true }) as GlobImport
+const pages = Object.keys(modules).map(key => modules[key])
+console.log(modules, pages)
+
 const antdDarkTheme: MappingAlgorithm = (seedToken, mapToken) => {
   return {
     ...theme.darkAlgorithm(seedToken, mapToken),
