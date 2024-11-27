@@ -12,7 +12,6 @@ import { ThemeProvider } from '@mui/joy';
 import { joyTheme } from '@/defaultTheme';
 import { useTranslation } from 'react-i18next';
 
-
 const antdDarkTheme: MappingAlgorithm = (seedToken, mapToken) => {
   return {
     ...theme.darkAlgorithm(seedToken, mapToken),

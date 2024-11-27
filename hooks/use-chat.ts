@@ -38,7 +38,7 @@ const useChat = ({ queryAgentURL = '/api/v1/chat/completions' }: Props) => {
       }
 
       try {
-        await fetchEventSource(`${process.env.API_BASE_URL ?? ''}${queryAgentURL}`, {
+        await fetchEventSource(`${import.meta.env.API_BASE_URL ?? ''}${queryAgentURL}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
