@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from 'react'
+import { useState, useContext, useEffect, useRef, Suspense, lazy } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
@@ -11,12 +11,46 @@ import SideBar from '@/components/layout/side-bar';
 import { ThemeProvider } from '@mui/joy';
 import { joyTheme } from '@/defaultTheme';
 import { useTranslation } from 'react-i18next';
+import { Routes, Route } from 'react-router-dom';
 
-type GlobImport = Record<string, (() => Promise<React.ComponentType>) | React.ComponentType | (() => Promise<{ default: React.ComponentType }>)>;
-const modules: GlobImport = import.meta.glob('../pages/{index.tsx,*/index.tsx}', { eager: true }) as GlobImport
-const pages = Object.keys(modules).map(key => modules[key])
-console.log(modules, pages)
-
+const routes = [
+  {
+    path: "/agent",
+    element: lazy(() => import("../pages/agent/index.tsx"))
+  },
+  {
+    path: "/app",
+    element: lazy(() => import("../pages/app/index.tsx"))
+  },
+  {
+    path: "/chat",
+    element: lazy(() => import("../pages/chat/index.tsx"))
+  },
+  {
+    path: "/database",
+    element: lazy(() => import("../pages/database/index.tsx"))
+  },
+  {
+    path: "/flow",
+    element: lazy(() => import("../pages/flow/index.tsx"))
+  },
+  {
+    path: "/",
+    element: lazy(() => import("../pages/index.tsx"))
+  },
+  {
+    path: "/knowledge",
+    element: lazy(() => import("../pages/knowledge/index.tsx"))
+  },
+  {
+    path: "/nodels",
+    element: lazy(() => import("../pages/models/index.tsx"))
+  },
+  {
+    path: "/prompt",
+    element: lazy(() => import("../pages/prompt/index.tsx"))
+  },
+]
 const antdDarkTheme: MappingAlgorithm = (seedToken, mapToken) => {
   return {
     ...theme.darkAlgorithm(seedToken, mapToken),
@@ -52,32 +86,21 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
   <ThemeProvider theme={joyTheme}>
     <LayoutWrapper>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Routes>
+        
+        {routes.map((route) => (
+          <Route
+            key={route.path}
+            path={route.path}
+            element={<route.element />}
+          />
+        ))}
+      </Routes>
     </LayoutWrapper>
   </ThemeProvider>
     </>
