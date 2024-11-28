@@ -1,17 +1,21 @@
+import type { AppProps } from 'next/app';
 import { useState, useContext, useEffect, useRef, Suspense, lazy } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Routes, Route } from 'react-router-dom';
+import SideBar from '@/components/layout/side-bar';
+import TopProgressBar from '@/components/layout/top-progress-bar';
+import { useTranslation } from 'react-i18next';
 import { ChatContext, ChatContextProvider } from '@/app/chat-context';
+import classNames from 'classnames';
+import '../styles/globals.css';
+import '../styles/nprogress.css';
+import '@/app/i18n';
+import { STORAGE_LANG_KEY } from '@/utils';
 import { ConfigProvider, MappingAlgorithm, theme } from 'antd';
 import zhCN from 'antd/locale/zh_CN';
 import enUS from 'antd/locale/en_US';
-import classNames from 'classnames';
-import SideBar from '@/components/layout/side-bar';
-import { ThemeProvider } from '@mui/joy';
+import { CssVarsProvider, ThemeProvider, useColorScheme } from '@mui/joy';
 import { joyTheme } from '@/defaultTheme';
-import { useTranslation } from 'react-i18next';
-import { Routes, Route } from 'react-router-dom';
+
 
 const routes = [
   {
@@ -84,25 +88,61 @@ function LayoutWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
+function CssWrapper({ children }: { children: React.ReactElement }) {
+  const { mode } = useContext(ChatContext);
+  const { i18n } = useTranslation();
+  const { setMode: setMuiMode } = useColorScheme();
+
+  useEffect(() => {
+    setMuiMode(mode);
+  }, [mode]);
+
+  useEffect(() => {
+    if (mode) {
+      document.body?.classList?.add(mode);
+      if (mode === 'light') {
+        document.body?.classList?.remove('dark');
+      } else {
+        document.body?.classList?.remove('light');
+      }
+    }
+  }, [mode]);
+
+  useEffect(() => {
+    i18n.changeLanguage && i18n.changeLanguage(window.localStorage.getItem(STORAGE_LANG_KEY) || 'en');
+  }, [i18n]);
+
+  return (
+    <div>
+      <TopProgressBar />
+      {children}
+    </div>
+  );
+}
 
 function App() {
 
   return (
     <>
-  <ThemeProvider theme={joyTheme}>
-    <LayoutWrapper>
-      <Routes>
-        
-        {routes.map((route) => (
-          <Route
-            key={route.path}
-            path={route.path}
-            element={<route.element />}
-          />
-        ))}
-      </Routes>
-    </LayoutWrapper>
-  </ThemeProvider>
+    <ChatContextProvider>
+      <ThemeProvider theme={joyTheme}>
+        <CssVarsProvider theme={joyTheme} defaultMode="light">
+          <CssWrapper>
+            <LayoutWrapper>
+              <Routes>
+                {routes.map((route) => (
+                  <Route
+                    key={route.path}
+                    path={route.path}
+                    element={<route.element />}
+                  />
+                ))}
+              </Routes>
+            </LayoutWrapper>
+          </CssWrapper>
+        </CssVarsProvider>
+      </ThemeProvider>
+    </ChatContextProvider>
     </>
   )
 }

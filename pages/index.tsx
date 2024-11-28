@@ -76,7 +76,6 @@ const Home: React.FC = () => {
           width={856}
           height={160}
           className="w-full mt-4"
-          unoptimized
         />
         <Divider className="!text-[#878c93] !my-6" plain>
           {t('Quick_Start')}
